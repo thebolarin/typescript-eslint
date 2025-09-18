@@ -300,32 +300,42 @@ String(foo);
       `,
       options: [{ ignoredTypeNames: ['Foo'] }],
     },
-    `interface MyError extends Error { }
-
-declare const error: MyError;
-error.toString();`,
-
     {
       code: `
-      interface Animal {}
-      interface Serializable {}
-      interface Cat extends Animal, Serializable {}
 
-      declare const whiskers: Cat;
-      whiskers.toString();
-    `,
+interface MyError extends Error {}
+
+declare const error: MyError;
+error.toString();
+
+`,
+    },
+    {
+      code: `
+
+interface Animal {}
+interface Serializable {}
+interface Cat extends Animal, Serializable {}
+
+declare const whiskers: Cat;
+whiskers.toString();
+
+`,
       options: [{ ignoredTypeNames: ['Animal'] }],
     },
     {
       code: `
-     class UnknownBase {}
-      class CustomError extends UnknownBase {}
 
-      declare const err: CustomError;
-      err.toString();
-    `,
+class UnknownBase {}
+class CustomError extends UnknownBase {}
+
+declare const err: CustomError;
+err.toString();
+
+`,
       options: [{ ignoredTypeNames: ['UnknownBase'] }],
     },
+
     `
 function String(value) {
   return value;
