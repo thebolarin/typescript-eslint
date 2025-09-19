@@ -217,15 +217,9 @@ export default createRule<Options, MessageIds>({
     function isIgnoredTypeOrBase(
       type: ts.Type,
       seen = new Set<ts.Type>(),
-      cache = new Map<ts.Type, boolean>(),
     ): boolean {
       if (seen.has(type)) {
         return false;
-      }
-
-      const cached = cache.get(type);
-      if (cached != null) {
-        return cached;
       }
 
       seen.add(type);
@@ -236,10 +230,9 @@ export default createRule<Options, MessageIds>({
       if (!result && hasBaseTypes(type)) {
         result = checker
           .getBaseTypes(type)
-          .some(base => isIgnoredTypeOrBase(base, seen, cache));
+          .some(base => isIgnoredTypeOrBase(base, seen));
       }
 
-      cache.set(type, result);
       return result;
     }
 
